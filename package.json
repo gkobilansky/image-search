@@ -1,7 +1,7 @@
 {
-  "name": "image-search",
+  "name": "gif-search",
   "version": "1.0.0",
-  "description": "free code camp Image Search Abstraction Layer project",
+  "description": "free code camp image (sic. gif) search abstraction layer project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,8 @@
   "author": "Gene Kobilansky",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "giphy-api": "^1.2.1",
+    "promise": "^7.1.1"
   }
 }
