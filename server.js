@@ -7,41 +7,53 @@ var searchResults;
 var giphy = require('giphy-api')();
 
 
-
+//Just a place to land
 app.get('/', function(req, res) {
     res.send('Hello World!');
 });
 
+//See the latest search result, pulled fresh from the db
 app.get('/api/latest/gifsearch', function(req, res) {
         db.collection('searches').find().toArray(function(err, results) {
-            if (err) throw err
-             console.log(results)
+            if (err) throw err;
+             res.send(results);
         });
-        
-        res.redirect('/');
 });
 
+//New search
 app.get('/api/gifsearch/:search', function(req, res, next) {
-    
     var search = req.params.search,
         offset = req.query.offset;
-        
+
+    //store search results and times in DB
     db.collection('searches').insert({"term":search,"when": new Date()});    
         
+    //Use Giphy API to search, offset and return a litmit of ten gifs
     giphy.search({
         q: search,
         offset: offset,
         limit: 10
     }, function(err, res) {
-      // Res contains gif data!
+    // res contains gif data
         if (err) return res(err);
         searchResults = res;
         console.log(offset, typeof searchResults);
         next(); 
     });
+    // abstract search results to something simpler
     }, function (req, res) {    
-         console.log(typeof searchResults);
-         res.send(searchResults);
+        var abstractSearchResults = searchResults.data;
+        var userResults = [];
+        for (var i = 0; i < abstractSearchResults.length; i++) {
+           var obj = {
+               "slug": abstractSearchResults[i].slug,
+               "url": abstractSearchResults[i].url,
+               "source": abstractSearchResults[i].source,
+               "rating": abstractSearchResults[i].rating,
+            };
+        userResults.push(obj);
+        }
+          res.send(userResults);
     });
 
 MongoClient.connect(url, function(err, database) {

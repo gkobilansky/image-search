@@ -12,5 +12,8 @@
     "express": "^4.14.0",
     "giphy-api": "^1.2.1",
     "mongodb": "^2.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.10.0"
   }
 }
