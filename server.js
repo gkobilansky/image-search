@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var db;
-var url = 'mongodb://localhost:27017/mydatabase';
+var url = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
 var searchResults;
 var giphy = require('giphy-api')();
 
@@ -59,7 +59,7 @@ app.get('/api/gifsearch/:search', function(req, res, next) {
 MongoClient.connect(url, function(err, database) {
       if (err) throw err;
       db = database;    
-      app.listen(8080, function () {
+      app.listen(process.env.PORT || 8080, function () {
         console.log('Gif Search API listening on port 8080!');
       });
 });
